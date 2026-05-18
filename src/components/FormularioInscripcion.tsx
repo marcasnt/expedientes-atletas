@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import type { FormularioData } from '../types/formulario';
 import { SeccionDatosGenerales } from './SeccionDatosGenerales';
 import { SeccionInformacionDeportiva } from './SeccionInformacionDeportiva';
@@ -14,6 +14,8 @@ interface Props {
   onExportExcel: () => void;
   onPrint: () => void;
   onReset: () => void;
+  onGuardar: () => void;
+  onCargar: () => void;
 }
 
 export const FormularioInscripcion: React.FC<Props> = ({
@@ -24,57 +26,72 @@ export const FormularioInscripcion: React.FC<Props> = ({
   onExportExcel,
   onPrint,
   onReset,
+  onGuardar,
+  onCargar,
 }) => {
-  const formRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div className="min-h-screen bg-gray-300 py-4 px-2 print:bg-white print:p-0">
+    <div className="min-h-screen bg-gray-300 py-2 px-1 print:bg-white print:p-0 print:min-h-0">
       {/* Botones de accion - Solo visibles en pantalla */}
-      <div className="max-w-[816px] mx-auto mb-4 flex flex-wrap gap-2 print:hidden">
+      <div className="max-w-[794px] mx-auto mb-2 flex flex-wrap gap-1.5 print:hidden">
         <button
           onClick={onPrint}
-          className="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded text-sm font-semibold shadow transition"
+          className="bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded text-xs font-semibold shadow transition"
         >
-          Imprimir / PDF Nativo
+          Imprimir / PDF
         </button>
         <button
           onClick={onExportPDF}
-          className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded text-sm font-semibold shadow transition"
+          className="bg-red-700 hover:bg-red-800 text-white px-3 py-1.5 rounded text-xs font-semibold shadow transition"
         >
-          Exportar PDF (Alta Calidad)
+          Exportar PDF
         </button>
         <button
           onClick={onExportExcel}
-          className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm font-semibold shadow transition"
+          className="bg-green-700 hover:bg-green-800 text-white px-3 py-1.5 rounded text-xs font-semibold shadow transition"
         >
           Exportar Excel
         </button>
         <button
-          onClick={onReset}
-          className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm font-semibold shadow transition"
+          onClick={onGuardar}
+          className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded text-xs font-semibold shadow transition"
         >
-          Limpiar Formulario
+          Guardar Formulario
+        </button>
+        <button
+          onClick={onCargar}
+          className="bg-sky-600 hover:bg-sky-700 text-white px-3 py-1.5 rounded text-xs font-semibold shadow transition"
+        >
+          Cargar Formulario
+        </button>
+        <button
+          onClick={onReset}
+          className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 rounded text-xs font-semibold shadow transition"
+        >
+          Limpiar
         </button>
       </div>
 
-      {/* Formulario visual estilo documento carta */}
+      {/* Formulario visual estilo documento carta exacto */}
       <div
-        ref={formRef}
         id="formulario-inscripcion"
-        className="max-w-[816px] mx-auto bg-white shadow-2xl print:shadow-none print:max-w-none print:w-full"
-        style={{ minHeight: '1056px' }} // Tamaño carta en px a 96dpi
+        className="max-w-[794px] mx-auto bg-white shadow-2xl print:shadow-none print:max-w-none print:w-full overflow-hidden"
+        style={{
+          width: '794px',
+          minHeight: '1123px',
+          boxSizing: 'border-box',
+        }}
       >
         {/* Encabezado principal */}
-        <div className="border-2 border-gray-800 border-b-0">
-          <div className="border-b border-gray-800 py-3 text-center bg-white">
-            <h1 className="text-lg font-bold tracking-wider uppercase">
+        <div className="border-2 border-gray-900 border-b-0">
+          <div className="border-b border-gray-900 py-1 text-center bg-white">
+            <h1 className="text-sm font-bold tracking-wider uppercase">
               Formulario de Inscripcion del Atleta
             </h1>
           </div>
         </div>
 
         {/* Secciones */}
-        <div className="border-x-2 border-gray-800">
+        <div className="border-x-2 border-gray-900">
           <SeccionDatosGenerales
             data={data}
             onChange={onChange}
@@ -104,11 +121,11 @@ export const FormularioInscripcion: React.FC<Props> = ({
         </div>
 
         {/* Borde inferior */}
-        <div className="border-2 border-gray-800 border-t-0 h-2"></div>
+        <div className="border-2 border-gray-900 border-t-0 h-1"></div>
       </div>
 
       {/* Footer informativo */}
-      <div className="max-w-[816px] mx-auto mt-4 text-center text-[10px] text-gray-600 print:hidden">
+      <div className="max-w-[794px] mx-auto mt-2 text-center text-[9px] text-gray-600 print:hidden pb-4">
         <p>FENIFISC - Federacion Nicaragüense de Fisicoculturismo | Formulario digital de inscripcion</p>
       </div>
     </div>

@@ -63,7 +63,41 @@ export function useFormulario() {
 
   const resetForm = useCallback(() => {
     setData(initialData);
+    localStorage.removeItem('fenifisc_formulario_atleta');
   }, []);
 
-  return { data, updateField, setFoto, resetForm };
+  const guardarFormulario = useCallback(() => {
+    localStorage.setItem('fenifisc_formulario_atleta', JSON.stringify(data));
+    // Tambien descargar como archivo JSON
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `inscripcion-${data.documentoIdentidad || 'atleta'}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    alert('Formulario guardado en el navegador y descargado como JSON.');
+  }, [data]);
+
+  const cargarFormulario = useCallback((jsonData: Partial<FormularioData>) => {
+    setData(prev => ({ ...prev, ...jsonData }));
+  }, []);
+
+  const cargarDesdeArchivo = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target?.result as string);
+        setData({ ...initialData, ...parsed });
+        alert('Formulario cargado correctamente.');
+      } catch {
+        alert('Error al cargar el archivo. Asegurate de que sea un JSON valido.');
+      }
+    };
+    reader.readAsText(file);
+  }, []);
+
+  return { data, updateField, setFoto, resetForm, guardarFormulario, cargarFormulario, cargarDesdeArchivo };
 }

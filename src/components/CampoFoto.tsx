@@ -37,7 +37,7 @@ export const CampoFoto: React.FC<CampoFotoProps> = ({
         className={`
           relative border-2 border-dashed border-gray-400 bg-gray-50 cursor-pointer
           flex items-center justify-center overflow-hidden
-          ${aspectRatio} w-full max-w-[160px]
+          ${aspectRatio} w-full max-w-[120px]
           hover:bg-gray-100 transition-colors
         `}
       >

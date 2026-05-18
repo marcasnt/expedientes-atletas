@@ -4,14 +4,16 @@
 
 @page {
   size: letter;
-  margin: 0.5in;
+  margin: 0.3in;
 }
 
 @media print {
-  body {
+  html, body {
     background-color: white;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    margin: 0;
+    padding: 0;
   }
 
   .print\:hidden {
@@ -52,10 +54,48 @@
     background: transparent !important;
     outline: none !important;
     box-shadow: none !important;
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    padding: 0 !important;
   }
 
   textarea {
     border: 1px solid #d1d5db !important;
+    padding: 2px !important;
+  }
+
+  label {
+    font-size: 8px !important;
+  }
+
+  h1, h2 {
+    font-size: 11px !important;
+  }
+
+  /* Asegurar que todo el formulario quepa en una pagina */
+  #formulario-inscripcion {
+    width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Reducir espaciado en secciones */
+  .border-t-2 {
+    border-top-width: 1px !important;
+  }
+
+  .border-b-2 {
+    border-bottom-width: 1px !important;
+  }
+
+  img {
+    max-height: 60px !important;
+    object-fit: contain !important;
   }
 }
 

@@ -14,57 +14,57 @@ export const SeccionInformacionDeportiva: React.FC<Props> = ({ data, onChange })
         <h2 className="text-xs font-bold tracking-wider uppercase">Informacion Deportiva</h2>
       </div>
 
-      <div className="p-3">
+      <div className="p-1">
         {/* Fila 1: Disciplina y Equipo */}
-        <div className="grid grid-cols-2 gap-2 mb-2 border border-gray-300 p-1">
+        <div className="grid grid-cols-2 gap-1 mb-1 border border-gray-300 p-0.5">
           <div>
-            <label className="text-[10px] font-bold block">Disciplina Deportiva:</label>
+            <label className="text-[9px] font-bold block leading-tight">Disciplina Deportiva:</label>
             <input
               type="text"
               value={data.disciplinaDeportiva}
               onChange={(e) => onChange('disciplinaDeportiva', e.target.value)}
-              className="w-full text-xs border-b border-gray-300 bg-transparent px-1 focus:outline-none"
+              className="w-full text-[10px] border-b border-gray-300 bg-transparent px-0.5 focus:outline-none leading-tight"
             />
           </div>
           <div>
-            <label className="text-[10px] font-bold block">Equipo o club al que pertenece:</label>
+            <label className="text-[9px] font-bold block leading-tight">Equipo o club al que pertenece:</label>
             <input
               type="text"
               value={data.equipoClub}
               onChange={(e) => onChange('equipoClub', e.target.value)}
-              className="w-full text-xs border-b border-gray-300 bg-transparent px-1 focus:outline-none"
+              className="w-full text-[10px] border-b border-gray-300 bg-transparent px-0.5 focus:outline-none leading-tight"
             />
           </div>
         </div>
 
         {/* Fila 2: Categoria y Peso */}
-        <div className="grid grid-cols-2 gap-2 mb-2 border border-gray-300 p-1">
+        <div className="grid grid-cols-2 gap-1 mb-1 border border-gray-300 p-0.5">
           <div>
-            <label className="text-[10px] font-bold block">Categoria:</label>
+            <label className="text-[9px] font-bold block leading-tight">Categoria:</label>
             <input
               type="text"
               value={data.categoria}
               onChange={(e) => onChange('categoria', e.target.value)}
-              className="w-full text-xs border-b border-gray-300 bg-transparent px-1 focus:outline-none"
+              className="w-full text-[10px] border-b border-gray-300 bg-transparent px-0.5 focus:outline-none leading-tight"
             />
           </div>
           <div>
-            <label className="text-[10px] font-bold block">Peso:</label>
+            <label className="text-[9px] font-bold block leading-tight">Peso:</label>
             <input
               type="text"
               value={data.peso}
               onChange={(e) => onChange('peso', e.target.value)}
-              className="w-full text-xs border-b border-gray-300 bg-transparent px-1 focus:outline-none"
+              className="w-full text-[10px] border-b border-gray-300 bg-transparent px-0.5 focus:outline-none leading-tight"
             />
           </div>
         </div>
 
         {/* Fila 3: Seleccion y Eventos Internacionales */}
-        <div className="grid grid-cols-2 gap-2 mb-2 border border-gray-300 p-1">
+        <div className="grid grid-cols-2 gap-1 mb-1 border border-gray-300 p-0.5">
           <div>
-            <label className="text-[10px] font-bold block">Seleccion:</label>
-            <div className="flex gap-3 text-[10px]">
-              <label className="flex items-center gap-1 cursor-pointer">
+            <label className="text-[9px] font-bold block leading-tight">Seleccion:</label>
+            <div className="flex gap-2 text-[9px]">
+              <label className="flex items-center gap-0.5 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={data.seleccion === 'Preseleccion'}
@@ -72,7 +72,7 @@ export const SeccionInformacionDeportiva: React.FC<Props> = ({ data, onChange })
                 />
                 Preseleccion
               </label>
-              <label className="flex items-center gap-1 cursor-pointer">
+              <label className="flex items-center gap-0.5 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={data.seleccion === 'Seleccion Nacional'}
@@ -83,9 +83,9 @@ export const SeccionInformacionDeportiva: React.FC<Props> = ({ data, onChange })
             </div>
           </div>
           <div>
-            <label className="text-[10px] font-bold block">Ha participado en Eventos Internacionales:</label>
-            <div className="flex gap-3 text-[10px]">
-              <label className="flex items-center gap-1 cursor-pointer">
+            <label className="text-[9px] font-bold block leading-tight">Ha participado en Eventos Internacionales:</label>
+            <div className="flex gap-2 text-[9px]">
+              <label className="flex items-center gap-0.5 cursor-pointer">
                 <input
                   type="radio"
                   name="eventos"
@@ -94,7 +94,7 @@ export const SeccionInformacionDeportiva: React.FC<Props> = ({ data, onChange })
                 />
                 Si
               </label>
-              <label className="flex items-center gap-1 cursor-pointer">
+              <label className="flex items-center gap-0.5 cursor-pointer">
                 <input
                   type="radio"
                   name="eventos"
@@ -108,35 +108,35 @@ export const SeccionInformacionDeportiva: React.FC<Props> = ({ data, onChange })
         </div>
 
         {/* Fila 4: Anio inicio y Entrenador */}
-        <div className="grid grid-cols-2 gap-2 mb-2 border border-gray-300 p-1">
+        <div className="grid grid-cols-2 gap-1 mb-1 border border-gray-300 p-0.5">
           <div>
-            <label className="text-[10px] font-bold block">Anos de inicio:</label>
+            <label className="text-[9px] font-bold block leading-tight">Anos de inicio:</label>
             <input
               type="text"
               value={data.anioInicio}
               onChange={(e) => onChange('anioInicio', e.target.value)}
-              className="w-full text-xs border-b border-gray-300 bg-transparent px-1 focus:outline-none"
+              className="w-full text-[10px] border-b border-gray-300 bg-transparent px-0.5 focus:outline-none leading-tight"
             />
           </div>
           <div>
-            <label className="text-[10px] font-bold block">Nombre del Entrenador:</label>
+            <label className="text-[9px] font-bold block leading-tight">Nombre del Entrenador:</label>
             <input
               type="text"
               value={data.nombreEntrenador}
               onChange={(e) => onChange('nombreEntrenador', e.target.value)}
-              className="w-full text-xs border-b border-gray-300 bg-transparent px-1 focus:outline-none"
+              className="w-full text-[10px] border-b border-gray-300 bg-transparent px-0.5 focus:outline-none leading-tight"
             />
           </div>
         </div>
 
         {/* Fila 5: Logros */}
-        <div className="mb-2 border border-gray-300 p-1">
-          <label className="text-[10px] font-bold block">Registro / Marcas destacadas:</label>
+        <div className="mb-0 border border-gray-300 p-0.5">
+          <label className="text-[9px] font-bold block leading-tight">Registro / Marcas destacadas:</label>
           <textarea
             value={data.logros}
             onChange={(e) => onChange('logros', e.target.value)}
             rows={2}
-            className="w-full text-xs border border-gray-300 bg-transparent px-1 py-0.5 focus:outline-none resize-none"
+            className="w-full text-[10px] border border-gray-300 bg-transparent px-0.5 py-0.5 focus:outline-none resize-none leading-tight"
           />
         </div>
       </div>

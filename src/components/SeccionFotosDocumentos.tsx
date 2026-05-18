@@ -25,21 +25,21 @@ export const SeccionFotosDocumentos: React.FC<Props> = ({
         <h2 className="text-xs font-bold tracking-wider uppercase">Documentos de Identidad (Fotos)</h2>
       </div>
 
-      <div className="p-3">
-        <div className="grid grid-cols-3 gap-4">
+      <div className="p-1">
+        <div className="grid grid-cols-3 gap-2">
           <CampoFoto
             label="Cedula - Frente"
             value={fotoCedulaFrente}
             onChange={onFotoCedulaFrente}
             aspectRatio="aspect-[4/3]"
-            placeholderText="Subir frente de cedula"
+            placeholderText="Subir frente"
           />
           <CampoFoto
             label="Cedula - Reverso"
             value={fotoCedulaReverso}
             onChange={onFotoCedulaReverso}
             aspectRatio="aspect-[4/3]"
-            placeholderText="Subir reverso de cedula"
+            placeholderText="Subir reverso"
           />
           <CampoFoto
             label="Pasaporte"
