@@ -22,14 +22,14 @@ export const CampoFoto: React.FC<CampoFotoProps> = ({
     if (!file) return;
     const reader = new FileReader();
     reader.onloadend = () => {
-      onChange(reader.result as string);
+      onChange(reader.result as string); // envia Base64 al backend
     };
     reader.readAsDataURL(file);
   };
 
   return (
     <div className="flex flex-col items-center">
-      <label className="text-[10px] font-bold uppercase tracking-wide mb-1 text-center">
+      <label className="text-[9px] font-bold uppercase tracking-wide mb-0.5 text-center leading-tight">
         {label}
       </label>
       <div
@@ -48,7 +48,7 @@ export const CampoFoto: React.FC<CampoFotoProps> = ({
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-          <span className="text-[9px] text-gray-500 text-center px-2 leading-tight">
+          <span className="text-[8px] text-gray-500 text-center px-1 leading-tight">
             {placeholderText}
           </span>
         )}
@@ -66,7 +66,7 @@ export const CampoFoto: React.FC<CampoFotoProps> = ({
             e.stopPropagation();
             onChange(null);
           }}
-          className="mt-1 text-[9px] text-red-600 underline hover:text-red-800"
+          className="mt-0.5 text-[8px] text-red-600 underline hover:text-red-800"
           type="button"
         >
           Eliminar

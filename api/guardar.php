@@ -2,6 +2,8 @@
 // ============================================================
 // FENIFISC API - Guardar / Actualizar Atleta
 // Metodo: POST
+// Las fotos Base64 se guardan como archivos en uploads/ y
+// en la BD solo se guarda la ruta del archivo.
 // ============================================================
 require_once 'config.php';
 
@@ -9,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     error('Metodo no permitido. Use POST.', 405);
 }
 
-// Obtener datos del body JSON
 $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
@@ -17,29 +18,35 @@ if (!$data) {
     error('Datos JSON invalidos.');
 }
 
-// Validar campos obligatorios
 if (empty($data['nombres']) || empty($data['apellidos']) || empty($data['documentoIdentidad'])) {
     error('Los campos Nombres, Apellidos y Documento de Identidad son obligatorios.');
 }
 
-// Preparar valores
-$documento = $conn->real_escape_string($data['documentoIdentidad'] ?? '');
+$documento = e($conn, $data['documentoIdentidad'] ?? '');
 
-// Verificar si el atleta ya existe (por documento de identidad)
-$sql_check = "SELECT id FROM atletas WHERE documento_identidad = '$documento'";
+// Verificar si el atleta ya existe
+$sql_check = "SELECT id, foto_carnet, foto_cedula_frente, foto_cedula_reverso, foto_pasaporte 
+              FROM atletas WHERE documento_identidad = '$documento'";
 $result = $conn->query($sql_check);
 $existe = ($result && $result->num_rows > 0);
 
-// Funcion helper para escapar strings
-function e($conn, $val) {
-    return $conn->real_escape_string($val ?? '');
-}
+// Procesar fotos (Base64 -> archivos reales)
+$fotoCarnet = procesarFoto($data['fotoCarnet'] ?? null, $documento, 'carnet');
+$fotoCedulaFrente = procesarFoto($data['fotoCedulaFrente'] ?? null, $documento, 'cedula_frente');
+$fotoCedulaReverso = procesarFoto($data['fotoCedulaReverso'] ?? null, $documento, 'cedula_reverso');
+$fotoPasaporte = procesarFoto($data['fotoPasaporte'] ?? null, $documento, 'pasaporte');
 
 if ($existe) {
     // ACTUALIZAR
     $row = $result->fetch_assoc();
     $id = $row['id'];
-    
+
+    // Si se reemplazo una foto, borrar la antigua
+    if ($fotoCarnet && $fotoCarnet !== $row['foto_carnet']) borrarFoto($row['foto_carnet']);
+    if ($fotoCedulaFrente && $fotoCedulaFrente !== $row['foto_cedula_frente']) borrarFoto($row['foto_cedula_frente']);
+    if ($fotoCedulaReverso && $fotoCedulaReverso !== $row['foto_cedula_reverso']) borrarFoto($row['foto_cedula_reverso']);
+    if ($fotoPasaporte && $fotoPasaporte !== $row['foto_pasaporte']) borrarFoto($row['foto_pasaporte']);
+
     $sql = "UPDATE atletas SET
         nombres = '" . e($conn, $data['nombres']) . "',
         apellidos = '" . e($conn, $data['apellidos']) . "',
@@ -65,18 +72,18 @@ if ($existe) {
         contacto_emergencia_nombre = '" . e($conn, $data['contactoEmergenciaNombre']) . "',
         contacto_emergencia_parentesco = '" . e($conn, $data['contactoEmergenciaParentesco']) . "',
         contacto_emergencia_telefono = '" . e($conn, $data['contactoEmergenciaTelefono']) . "',
-        foto_carnet = '" . e($conn, $data['fotoCarnet']) . "',
-        foto_cedula_frente = '" . e($conn, $data['fotoCedulaFrente']) . "',
-        foto_cedula_reverso = '" . e($conn, $data['fotoCedulaReverso']) . "',
-        foto_pasaporte = '" . e($conn, $data['fotoPasaporte']) . "'
+        foto_carnet = '" . e($conn, $fotoCarnet) . "',
+        foto_cedula_frente = '" . e($conn, $fotoCedulaFrente) . "',
+        foto_cedula_reverso = '" . e($conn, $fotoCedulaReverso) . "',
+        foto_pasaporte = '" . e($conn, $fotoPasaporte) . "'
     WHERE id = $id";
-    
+
     if ($conn->query($sql)) {
         exito('Atleta actualizado correctamente.', ['id' => $id, 'accion' => 'actualizado']);
     } else {
         error('Error al actualizar: ' . $conn->error, 500);
     }
-    
+
 } else {
     // INSERTAR NUEVO
     $sql = "INSERT INTO atletas (
@@ -94,7 +101,7 @@ if ($existe) {
         " . intval($data['edad'] ?? 0) . ",
         '" . e($conn, $data['genero']) . "',
         '" . e($conn, $data['nacionalidad']) . "',
-        '" . e($conn, $data['documentoIdentidad']) . "',
+        '$documento',
         '" . e($conn, $data['lugarNacimiento']) . "',
         '" . e($conn, $data['estadoCivil']) . "',
         '" . e($conn, $data['direccion']) . "',
@@ -113,12 +120,12 @@ if ($existe) {
         '" . e($conn, $data['contactoEmergenciaNombre']) . "',
         '" . e($conn, $data['contactoEmergenciaParentesco']) . "',
         '" . e($conn, $data['contactoEmergenciaTelefono']) . "',
-        '" . e($conn, $data['fotoCarnet']) . "',
-        '" . e($conn, $data['fotoCedulaFrente']) . "',
-        '" . e($conn, $data['fotoCedulaReverso']) . "',
-        '" . e($conn, $data['fotoPasaporte']) . "'
+        '" . e($conn, $fotoCarnet) . "',
+        '" . e($conn, $fotoCedulaFrente) . "',
+        '" . e($conn, $fotoCedulaReverso) . "',
+        '" . e($conn, $fotoPasaporte) . "'
     )";
-    
+
     if ($conn->query($sql)) {
         $id = $conn->insert_id;
         exito('Atleta registrado correctamente.', ['id' => $id, 'accion' => 'creado']);

@@ -13,6 +13,8 @@
 -- USE fenifisc_atletas;
 
 -- 3. Crear tabla de atletas
+-- NOTA: Los campos de foto ahora guardan la RUTA del archivo (ej: uploads/carnet_0011234.jpg)
+-- en vez del contenido Base64 completo. Esto hace la BD mas rapida y sin limite de tamano.
 CREATE TABLE IF NOT EXISTS atletas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombres VARCHAR(100) NOT NULL,
@@ -40,10 +42,10 @@ CREATE TABLE IF NOT EXISTS atletas (
     contacto_emergencia_nombre VARCHAR(100),
     contacto_emergencia_parentesco VARCHAR(50),
     contacto_emergencia_telefono VARCHAR(50),
-    foto_carnet LONGTEXT,
-    foto_cedula_frente LONGTEXT,
-    foto_cedula_reverso LONGTEXT,
-    foto_pasaporte LONGTEXT,
+    foto_carnet VARCHAR(255),
+    foto_cedula_frente VARCHAR(255),
+    foto_cedula_reverso VARCHAR(255),
+    foto_pasaporte VARCHAR(255),
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
